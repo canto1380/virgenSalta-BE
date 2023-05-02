@@ -20,6 +20,7 @@ module.exports = {
     quotes: ['error', 'single'],
     semi: ['error', 'never'],
     indent: ['error', 2],
-    'object-curly-spacing': ['error', 'always']
+    'object-curly-spacing': ['error', 'always'],
+    'prefer-const': ['error', 'never']
   }
 }

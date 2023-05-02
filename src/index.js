@@ -8,6 +8,9 @@ import cookieParser from 'cookie-parser'
 import path from 'path'
 import { fileURLToPath } from 'url'
 
+import signinRoutes from './routes/signin.routes.js'
+import userRoutes from './routes/user.routes.js'
+
 const app = express()
 dotenv.config({ path: '.env' })
 
@@ -29,3 +32,6 @@ app.set('port', process.env.PORT || 4008)
 app.listen(app.get('port'), () => {
   console.log(`Conectado desde el puerto ${app.get('port')}`)
 })
+
+app.use('/signin', signinRoutes)
+app.use('/users', userRoutes)
