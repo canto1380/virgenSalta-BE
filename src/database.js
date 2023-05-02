@@ -23,5 +23,5 @@ connection
     console.log(`Conectado a la DB: *** ${MONGO_DB} ***`)
   })
   .on('error', err => {
-    console.log(err)
+    return(err)
   })
