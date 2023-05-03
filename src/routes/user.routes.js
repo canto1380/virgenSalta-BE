@@ -18,7 +18,7 @@ import {
   putRequestValidations,
   restoreRequestValidation,
   putPassRequestValidations,
-  getAllRequestValidations
+  // getAllRequestValidations
 } from '../middlewares/user.js'
 const router = Router()
 
