@@ -23,7 +23,7 @@ import {
 const router = Router()
 
 router.get('/allUser', allUser)
-router.get('/', getAllRequestValidations, userList)
+router.get('/', userList)
 router.post('/createUser', postRequestValidations, createUser)
 router.get('/:id', getByIdRequestValidations, userById)
 router.get('/nick/:nickname', userByNickname)
