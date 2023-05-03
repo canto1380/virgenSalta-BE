@@ -7,8 +7,8 @@ dotenv.config({ path: '.env' })
 
 const { MONGO_HOST, MONGO_PORT, MONGO_DB } = process.env
 
-// const connUrl = `mongodb://${MONGO_USER}:${MONGO_PASS}@${MONGO_HOST}:${MONGO_PORT}/${MONGO_DB}`;
-const connUrl = `mongodb://${MONGO_HOST}:${MONGO_PORT}/${MONGO_DB}`
+
+const connUrl = `mongodb://mongo:u6rQffRBwC6YIpVBxgSR@containers-us-west-59.railway.app:7274`
 
 mongoose.connect(connUrl)
   .then(success => {
