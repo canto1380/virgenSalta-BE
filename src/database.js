@@ -5,11 +5,11 @@ import seedersUp from './utils/seeders.js'
 
 dotenv.config({ path: '.env' })
 
-const { MONGO_HOST, MONGO_PORT, MONGO_DB } = process.env
+const { MONGO_HOST, MONGO_PORT, MONGO_DB, URL_SERVER, URL_SERVER_PRODUCTION } = process.env
 
+const connUrl = URL_SERVER ? URL_SERVER : URL_SERVER_PRODUCTION
 
-const connUrl = `mongodb://mongo:u6rQffRBwC6YIpVBxgSR@containers-us-west-59.railway.app:7274`
-
+console.log(connUrl)
 mongoose.connect(connUrl)
   .then(success => {
     signale.success('Database connected')
