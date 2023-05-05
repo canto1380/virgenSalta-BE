@@ -76,6 +76,7 @@ export const createUser = async (req, res) => {
 export const userById = async (req, res) => {
   try {
     const { id } = req.params
+    console.log(req.params)
     const user = await User.findById(id)
     res.status(200).json(user)
   } catch (error) {
@@ -148,7 +149,7 @@ export const updateUser = async (req, res) => {
     const { id } = req.params
     const userUpdated = await User.findByIdAndUpdate(id, body, { new: true })
 
-    const email = body.email
+    const email = userUpdated.email
     const nickname = email.split('@')
     switch (nickname[1]) {
     case 'gmail.com' :

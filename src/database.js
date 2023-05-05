@@ -5,9 +5,9 @@ import seedersUp from './utils/seeders.js'
 
 dotenv.config({ path: '.env' })
 
-const { MONGO_HOST, MONGO_PORT, MONGO_DB, URL_SERVER, URL_SERVER_PRODUCTION } = process.env
+const { MONGO_HOST, MONGO_PORT, MONGO_DB, URL_SERVER_LOCAL, URL_SERVER_PRODUCTION } = process.env
 
-const connUrl = URL_SERVER ? URL_SERVER : URL_SERVER_PRODUCTION
+const connUrl = URL_SERVER_LOCAL ? URL_SERVER_LOCAL : URL_SERVER_PRODUCTION
 
 console.log(connUrl)
 mongoose.connect(connUrl)

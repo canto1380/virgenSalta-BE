@@ -17,12 +17,13 @@ import {
   postRequestValidations,
   putRequestValidations,
   restoreRequestValidation,
+  getAllRequestValidations,
   putPassRequestValidations,
 } from '../middlewares/user.js'
 const router = Router()
 
 router.get('/allUser', allUser)
-router.get('/', userList)
+router.get('/', getAllRequestValidations, userList)
 router.post('/createUser', postRequestValidations, createUser)
 router.get('/:id', getByIdRequestValidations, userById)
 router.get('/nick/:nickname', userByNickname)

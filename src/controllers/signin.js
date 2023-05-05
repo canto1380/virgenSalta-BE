@@ -15,10 +15,10 @@ export const signin = async (req, res) => {
         secure: true,
         maxAge: 24 * 60 * 60 * 1000
       })
-      const { _id, nickname } = user
+      const { _id, nickname, name, surname } = user
       const lastSessionDate = moment(new Date().getTime()).format('DD/MM/YYYY, h:mm:ss')
       updateLastSession(email, lastSessionDate)
-      res.status(200).send({ success: true, user: { _id, nickname }, token })
+      res.status(200).send({ success: true, user: { _id, nickname, name, surname }, token })
     }
   } catch (error) {
     res.status(500).send(error)
