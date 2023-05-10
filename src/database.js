@@ -9,7 +9,6 @@ const { MONGO_HOST, MONGO_PORT, MONGO_DB, URL_SERVER_LOCAL, URL_SERVER_PRODUCTIO
 
 const connUrl = URL_SERVER_LOCAL ? URL_SERVER_LOCAL : URL_SERVER_PRODUCTION
 
-console.log(connUrl)
 mongoose.connect(connUrl)
   .then(success => {
     signale.success('Database connected')

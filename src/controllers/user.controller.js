@@ -67,7 +67,7 @@ export const createUser = async (req, res) => {
       break
     }
     await newUser.save()
-    res.status(201).json({ message: 'User added successfully' })
+    res.status(201).json({ message: 'Usuario agregado con éxito' })
   } catch (error) {
     res.status(404).send({ error: error.message, success: false })
   }
@@ -76,7 +76,6 @@ export const createUser = async (req, res) => {
 export const userById = async (req, res) => {
   try {
     const { id } = req.params
-    console.log(req.params)
     const user = await User.findById(id)
     res.status(200).json(user)
   } catch (error) {
@@ -164,7 +163,7 @@ export const updateUser = async (req, res) => {
     }
 
     await userUpdated.save()
-    res.status(200).json({ message: 'User updated successfuly', userUpdated })
+    res.status(200).json({ message: 'Usuario actualizado con éxito', userUpdated })
   } catch (error) {
     res.status(404).send({ error: error.message, success: false })
   }
@@ -187,7 +186,7 @@ export const updatePass = async (req, res) => {
       passExpiration.setDate(passExpiration.getDate() + 60)
       passUpdated.passExpiration = passExpiration
       await passUpdated.save()
-      res.status(200).json({ message: 'Pass updated successfully' })
+      res.status(200).json({ message: 'Clave actualizada con éxito' })
     }
   } catch (error) {
     res.status(400).send({ error: error.message, success: false })
@@ -200,7 +199,7 @@ export const deleteUser = async (req, res) => {
     const userDeleting = await User.findById(id)
     userDeleting.deleted = true
     userDeleting.save()
-    res.status(200).json({ message: 'User deleted' })
+    res.status(200).json({ message: 'Usuario eliminado con éxito' })
   } catch (error) {
     res.status(404).send({ error: error.message, success: false })
   }
@@ -212,7 +211,7 @@ export const restaurarUser = async (req, res) => {
     const userRestoring = await User.findById(id)
     userRestoring.deleted = false
     userRestoring.save()
-    res.status(200).json({ message: 'Restored user' })
+    res.status(200).json({ message: 'Usuario reestablecido con éxito' })
   } catch (error) {
     res.status(404).send({ error: error.message, success: false })
   }
