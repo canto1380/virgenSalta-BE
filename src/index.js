@@ -11,6 +11,7 @@ import { fileURLToPath } from 'url'
 import signinRoutes from './routes/signin.routes.js'
 import userRoutes from './routes/user.routes.js'
 import NewsCategoryRoutes from './routes/newsCategory.routes.js'
+import NewsRoutes from './routes/news.routes.js'
 
 const app = express()
 dotenv.config({ path: '.env' })
@@ -36,3 +37,4 @@ app.listen(app.get('port'), () => {
 app.use('/signin', signinRoutes)
 app.use('/users', userRoutes)
 app.use('/newsCategory', NewsCategoryRoutes)
+app.use('/news', NewsRoutes)
