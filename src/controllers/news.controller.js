@@ -3,7 +3,6 @@ import News from "../models/news.model.js"
 export const createNews = async(req, res) => {
   try {
     const body = req.body
-    console.log(body)
     const newNews = new News(body)
     await newNews.save()
     res.status(200).json(newNews)
@@ -33,7 +32,6 @@ export const allNews = async (req, res) => {
     if(idNewsCategory && idNewsCategory !== '')
       filters = { ...filters, idNewsCategory}
     const countNews = await News.countDocuments();
-    console.log(filters)
     const allNews = await News.find(filters)
       .limit(limit * 1)
       .skip((page - 1) * limit)
