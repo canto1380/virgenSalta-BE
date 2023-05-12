@@ -2,6 +2,8 @@ import bcrypt from 'bcrypt'
 import NewsCategory from '../models/newsCategory.model.js'
 import User from '../models/user.model.js'
 import News from '../models/news.model.js'
+import EventType from '../models/eventType.model.js'
+import DailyEvent from '../models/dailyEvent.model.js'
 
 const password = await bcrypt.hash('2203casa', 8)
 
@@ -94,10 +96,42 @@ const dataNews = async() => {
   return newsAdd
 }
 
+const dataEventType = [
+  {
+    eventName: 'Misa',
+    deleted: false
+  },
+  {
+    eventName: 'Celebraciones',
+    deleted: false
+  },
+]
+const dataDailyEvent = async() => {
+  const eventType = await EventType.find()
+  let dailyEventAdd = []
+  const dias = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", 'Domingo'];
+  const hora = ["19:30", "18", "18:30", "19", "20", "20:30"];
+  const data = eventType.map(async(d) => {
+    for(let i=0; i<9;i++) {
+      const dailyEvent = {
+        day: dias[Math.floor(Math.random() * dias.length)],
+        idEventType: d._id,
+        time: hora[Math.floor(Math.random() * hora.length)],
+        text: 'Texto de ejemplo - Misa',
+        additionalText: "Texto adicional. No requerido",
+      }
+      dailyEventAdd.push(dailyEvent)
+    }
+  })
+  return dailyEventAdd
+}
+
 const seedersUp = async () => {
   try {
     const db = process.env.MONGO_DB
     // mongoose.connection.db.dropDatabase()
+    await EventType.insertMany(dataEventType)
+    await DailyEvent.insertMany(await dataDailyEvent())
     await User.insertMany(dataUser)
     await NewsCategory.insertMany(dataNewsCategory)
     await News.insertMany(await dataNews())

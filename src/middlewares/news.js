@@ -11,11 +11,11 @@ import {
 import { verifyIdExistsNewsCategory } from "../controllers/newsCategory.controller.js";
 const fieldRequired = check(['title', 'subtitle', 'photos', 'description', 'caption', 'idNewsCategory'], 'Campo requerido').not().isEmpty()
 
-const nameNewsNotRepeat = check('tile').custom(async(tile) => {
-  if(!tile) {
+const nameNewsNotRepeat = check('title').custom(async(title) => {
+  if(!title) {
     return
   }
-  const newsFound = await verifyNameExistsNews(tile)
+  const newsFound = await verifyNameExistsNews(title)
   if(newsFound !== null) {
     throw new AppError('El nombre de la noticia ingresada ya existe', 400)
   }

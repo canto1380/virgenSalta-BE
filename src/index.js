@@ -12,6 +12,8 @@ import signinRoutes from './routes/signin.routes.js'
 import userRoutes from './routes/user.routes.js'
 import NewsCategoryRoutes from './routes/newsCategory.routes.js'
 import NewsRoutes from './routes/news.routes.js'
+import EventTypeRoutes from './routes/eventType.routes.js'
+import DailyEventRoutes from './routes/dailyEvent.routes.js'
 
 const app = express()
 dotenv.config({ path: '.env' })
@@ -38,3 +40,5 @@ app.use('/signin', signinRoutes)
 app.use('/users', userRoutes)
 app.use('/newsCategory', NewsCategoryRoutes)
 app.use('/news', NewsRoutes)
+app.use('/eventType', EventTypeRoutes)
+app.use('/dailyEvent', DailyEventRoutes)
