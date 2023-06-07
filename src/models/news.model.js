@@ -3,7 +3,8 @@ const newsSchema = new Schema({
   title: {
     type: String,
     trim: true,
-    required: true
+    required: true,
+    unique: true
   },
   subtitle: {
     type: String,
@@ -22,7 +23,7 @@ const newsSchema = new Schema({
   },
   photos: {
     type: [String],
-    required: true
+    // required: true
   },
   idNewsCategory: {
     type: Schema.Types.ObjectId,

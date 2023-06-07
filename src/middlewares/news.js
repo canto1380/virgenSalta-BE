@@ -9,7 +9,7 @@ import {
   verifyNameExistsNews
 } from '../controllers/news.controller.js'
 import { verifyIdExistsNewsCategory } from "../controllers/newsCategory.controller.js";
-const fieldRequired = check(['title', 'subtitle', 'photos', 'description', 'caption', 'idNewsCategory'], 'Campo requerido').not().isEmpty()
+const fieldRequired = check(['title', 'subtitle', 'description', 'caption', 'idNewsCategory'], 'Campo requerido').not().isEmpty()
 
 const nameNewsNotRepeat = check('title').custom(async(title) => {
   if(!title) {

@@ -20,15 +20,15 @@ export const allNews = async (req, res) => {
       order = "",
       sortBy = "",
       idNewsCategory,
-      deleted = false,
+      deleted,
     } = req.query;
     let orderSearch = order ? order : "desc";
     let sortBySearch = sortBy ? sortBy : "createdAt";
     const regex = new RegExp(search, "i");
     let filters = {
-      deleted,
       title: regex,
     };
+    if(deleted) filters ={...filters, deleted}
     if(idNewsCategory && idNewsCategory !== '')
       filters = { ...filters, idNewsCategory}
     const countNews = await News.countDocuments();
