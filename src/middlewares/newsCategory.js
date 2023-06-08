@@ -21,6 +21,11 @@ const nameNewsCategoryNotRepeat = check('nameCategory').custom(async(nameCategor
   }
 })
 
+const lengthCaption = check(
+  "nameCategory",
+  "El campo 'Nombre Categoría' debe tener entre 10 y 40 caracteres"
+).isLength({ min: 10, max: 40 });
+
 const idNewsCategoryExists = check('id').custom(async(id) => {
   const newsCategoryFound = await verifyIdExistsNewsCategory(id)
   if(!newsCategoryFound) {
@@ -32,6 +37,7 @@ export const postRequestValidations = [
   validJWT,
   nameRequired,
   nameNewsCategoryNotRepeat,
+  lengthCaption,
   validResult
 ]
 
@@ -43,6 +49,7 @@ export const patchRequestValidations = [
   validJWT,
   idNewsCategoryExists,
   nameNewsCategoryNotRepeat,
+  lengthCaption,
   validResult
 ]
 export const deleteRequestValidations = [
