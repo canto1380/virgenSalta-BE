@@ -30,7 +30,7 @@ export const allNewsCategory = async (req, res) => {
     };
     if(deleted) filters ={...filters, deleted}
     const countNewsCategory = await NewsCategory.countDocuments();
-
+    const findTotal = await NewsCategory.find(filters)
     const allNewsCategory = await NewsCategory.find(filters)
       .limit(limit * 1)
       .skip((page - 1) * limit)
@@ -39,7 +39,7 @@ export const allNewsCategory = async (req, res) => {
 
     res.status(200).json({
       allNewsCategory,
-      totalRegister: countNewsCategory,
+      totalRegister: findTotal.length,
       foundRegisters,
       totalPages: Math.ceil( countNewsCategory/limit ),
       currentPage: page

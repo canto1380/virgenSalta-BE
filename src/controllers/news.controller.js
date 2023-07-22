@@ -32,7 +32,7 @@ export const allNews = async (req, res) => {
     if(idNewsCategory && idNewsCategory !== '')
       filters = { ...filters, idNewsCategory}
     const countNews = await News.countDocuments();
-    const aa = await News.find(filters)
+    const findTotal = await News.find(filters)
     const allNews = await News.find(filters)
       .limit(limit * 1)
       .skip((page - 1) * limit)
@@ -42,7 +42,7 @@ export const allNews = async (req, res) => {
 
     res.status(200).json({
       allNews,
-      totalRegister: aa.length,
+      totalRegister: findTotal.length,
       foundRegisters,
       totalPages: Math.ceil( countNews/limit ),
       currentPage: page
