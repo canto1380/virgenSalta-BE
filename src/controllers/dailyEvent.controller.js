@@ -20,17 +20,22 @@ export const allDailyEvent = async (req, res) => {
       order = "",
       sortBy = "",
       idEventType,
-      deleted = false,
+      day,
+      deleted
     } = req.query;
     let orderSearch = order ? order : "desc";
     let sortBySearch = sortBy ? sortBy : "createdAt";
     const regex = new RegExp(search, "i");
     let filters = {
-      deleted,
       text: regex,
     };
+    if(deleted) filters ={...filters, deleted}
     if(idEventType && idEventType !== '')
       filters = { ...filters, idEventType}
+
+    if(day && day !== '')
+      filters = { ...filters, day}
+
     const counterDailyEvent = await DailyEvent.countDocuments();
     const allDailyEvent = await DailyEvent.find(filters)
       .limit(limit * 1)
@@ -101,3 +106,5 @@ export const restoreDailyEvent = async (req, res) => {
     return res.status(400).send({ error: error.message, success: false });
   }
 };
+
+

@@ -19,15 +19,15 @@ export const allEventType = async (req, res) => {
       search = "",
       order = "",
       sortBy = "",
-      deleted = false,
+      deleted,
     } = req.query;
     let orderSearch = order ? order : "desc";
     let sortBySearch = sortBy ? sortBy : "createdAt";
     const regex = new RegExp(search, "i");
     let filters = {
-      deleted,
       eventName: regex,
     };
+    if(deleted) filters ={...filters, deleted}
     const countEventType = await EventType.countDocuments();
     const allEvent = await EventType.find(filters)
       .limit(limit * 1)
