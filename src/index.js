@@ -7,6 +7,9 @@ import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import path from 'path'
 import { fileURLToPath } from 'url'
+import swaggerUI from 'swagger-ui-express'
+import swaggerJSDoc from 'swagger-jsdoc'
+import { options } from './swagger/swaggerOptions.js'
 
 import signinRoutes from './routes/signin.routes.js'
 import userRoutes from './routes/user.routes.js'
@@ -14,11 +17,11 @@ import NewsCategoryRoutes from './routes/newsCategory.routes.js'
 import NewsRoutes from './routes/news.routes.js'
 import EventTypeRoutes from './routes/eventType.routes.js'
 import DailyEventRoutes from './routes/dailyEvent.routes.js'
+import ImportantEventTypeRoutes from './routes/importantEventType.routes.js'
+import ImportantEvent from './routes/importantEvent.routes.js'
 
 import fs from 'fs'
 import process from 'process'
-import {authenticate} from '@google-cloud/local-auth'
-import {google} from 'googleapis'
 
 const app = express()
 dotenv.config({ path: '.env' })
@@ -59,3 +62,8 @@ app.use('/newsCategory', NewsCategoryRoutes)
 app.use('/news', NewsRoutes)
 app.use('/eventType', EventTypeRoutes)
 app.use('/dailyEvent', DailyEventRoutes)
+app.use('/importantEventType', ImportantEventTypeRoutes)
+app.use('/importantEvent', ImportantEvent)
+
+const specs = swaggerJSDoc(options)
+app.use('/docs', swaggerUI.serve, swaggerUI.setup(specs))
