@@ -55,7 +55,9 @@ app.listen(app.get('port'), () => {
 //   res.setHeader("Access-Control-Allow-Headers", "content-type");
 //   res.setHeader( "Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" );
 //    });
-
+app.get('/', (req, res) => {
+  res.send('Hola')
+})
 app.use('/signin', signinRoutes)
 app.use('/users', userRoutes)
 app.use('/newsCategory', NewsCategoryRoutes)
