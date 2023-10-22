@@ -49,13 +49,14 @@ app.listen(app.get('port'), () => {
   console.log(`Conectado desde el puerto ${app.get('port')}`)
 })
 
-// app.use("/", (req, res) => {
-//   res.setHeader("Access-Control-Allow-Origin", "*")
-//   res.setHeader("Access-Control-Allow-Credentials", "true");
-//   res.setHeader("Access-Control-Max-Age", "1800");
-//   res.setHeader("Access-Control-Allow-Headers", "content-type");
-//   res.setHeader( "Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" );
-//    });
+app.use("/", (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "*")
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader("Access-Control-Max-Age", "1800");
+  res.setHeader("Access-Control-Allow-Headers", "content-type");
+  res.setHeader( "Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" );
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+   });
 app.get('/', (req, res) => {
   res.send('Hola')
 })
