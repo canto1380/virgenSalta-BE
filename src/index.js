@@ -20,8 +20,6 @@ import DailyEventRoutes from './routes/dailyEvent.routes.js'
 import ImportantEventTypeRoutes from './routes/importantEventType.routes.js'
 import ImportantEvent from './routes/importantEvent.routes.js'
 
-
-import fs from 'fs'
 import process from 'process'
 
 const app = express()
@@ -49,17 +47,31 @@ app.listen(app.get('port'), () => {
   console.log(`Conectado desde el puerto ${app.get('port')}`)
 })
 
-app.use("/", (req, res) => {
-  res.setHeader("Access-Control-Allow-Origin", "*")
-  res.setHeader("Access-Control-Allow-Credentials", "true");
-  res.setHeader("Access-Control-Max-Age", "1800");
-  res.setHeader("Access-Control-Allow-Headers", "content-type");
-  res.setHeader( "Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" );
-  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
-   });
+// app.use("/", (req, res) => {
+//   res.setHeader("Access-Control-Allow-Origin", "*")
+//   res.setHeader("Access-Control-Allow-Credentials", "true");
+//   res.setHeader("Access-Control-Max-Age", "1800");
+//   res.setHeader("Access-Control-Allow-Headers", "content-type");
+//   res.setHeader( "Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" );
+//   res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+//    });
 app.get('/', (req, res) => {
   res.send('Hola')
 })
+// app.get('/youtubeData', async (req, res) => {
+//   try {
+//     const response = await axios.get('https://www.youtube.com/YjBSl8v1u8w?origin=https://virgendesalta.netlify.app', {
+//       headers: {
+//         'x-goog-authuser': 'your-auth-user-header-value'
+//       }
+//     })
+//     console.log('111')
+//     res.json(response)
+//   } catch (error) {
+//     res.status(500).json({ error: 'Unable to fetch data from YouTube' });
+//   }
+// })
+
 app.use('/signin', signinRoutes)
 app.use('/users', userRoutes)
 app.use('/newsCategory', NewsCategoryRoutes)
@@ -68,6 +80,7 @@ app.use('/eventType', EventTypeRoutes)
 app.use('/dailyEvent', DailyEventRoutes)
 app.use('/importantEventType', ImportantEventTypeRoutes)
 app.use('/importantEvent', ImportantEvent)
+
 
 const specs = swaggerJSDoc(options)
 app.use('/docs', swaggerUI.serve, swaggerUI.setup(specs))
