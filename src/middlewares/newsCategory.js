@@ -48,7 +48,7 @@ export const getByIdRequestValidations = [
 export const patchRequestValidations = [
   validJWT,
   idNewsCategoryExists,
-  nameNewsCategoryNotRepeat,
+  // nameNewsCategoryNotRepeat,
   lengthCaption,
   validResult
 ]

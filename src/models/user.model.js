@@ -64,6 +64,9 @@ const userSchema = new Schema(
       type: Number,
       default: 0
     },
+    tokenResetPass: {
+      type: String
+    },
     deleted: {
       type: Boolean,
       default: false

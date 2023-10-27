@@ -24,12 +24,12 @@ import process from 'process'
 
 const app = express()
 dotenv.config({ path: '.env' })
+app.use(cors())
 const corsOptions ={
   origin:'http://localhost:3000',
   credentials:true,            //access-control-allow-credentials:true
   optionSuccessStatus:200
 }
-app.use(cors())
 app.use(
   morgan(':method :url :status :res[content-length] - :response-time ms')
 )
@@ -47,30 +47,6 @@ app.listen(app.get('port'), () => {
   console.log(`Conectado desde el puerto ${app.get('port')}`)
 })
 
-// app.use("/", (req, res) => {
-//   res.setHeader("Access-Control-Allow-Origin", "*")
-//   res.setHeader("Access-Control-Allow-Credentials", "true");
-//   res.setHeader("Access-Control-Max-Age", "1800");
-//   res.setHeader("Access-Control-Allow-Headers", "content-type");
-//   res.setHeader( "Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" );
-//   res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
-//    });
-app.get('/', (req, res) => {
-  res.send('Hola')
-})
-// app.get('/youtubeData', async (req, res) => {
-//   try {
-//     const response = await axios.get('https://www.youtube.com/YjBSl8v1u8w?origin=https://virgendesalta.netlify.app', {
-//       headers: {
-//         'x-goog-authuser': 'your-auth-user-header-value'
-//       }
-//     })
-//     console.log('111')
-//     res.json(response)
-//   } catch (error) {
-//     res.status(500).json({ error: 'Unable to fetch data from YouTube' });
-//   }
-// })
 
 app.use('/signin', signinRoutes)
 app.use('/users', userRoutes)

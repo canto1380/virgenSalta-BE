@@ -73,7 +73,7 @@ export const getByIdRequestValidations = [
 export const patchRequestValidations = [
   validJWT,
   idNewsExists,
-  nameNewsNotRepeat,
+  // nameNewsNotRepeat,
   lengthCaption,
   lengthDescription,
   lenghtInput,

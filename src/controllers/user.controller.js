@@ -92,6 +92,15 @@ export const userByNickname = async (req, res) => {
     res.status(404).send({ error: error.message, success: false })
   }
 }
+export const userByEmail = async (req, res) => {
+  try {
+    const { email } = req.params
+    const user = await User.findOne({ email })
+    res.status(200).json(user)
+  } catch (error) {
+    res.status(404).send({ error: error.message, success: false })
+  }
+}
 
 export const verifyExists = (email) => {
   const user = User.findOne({ email: email })
