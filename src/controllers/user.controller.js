@@ -63,7 +63,7 @@ export const createUser = async (req, res) => {
       newUser.nickname = nickname[0] + '.'
       break
     default:
-      newUser.nickname = nickname[0] + '-'
+      newUser.nickname = nickname[0] + ' '
       break
     }
     await newUser.save()
