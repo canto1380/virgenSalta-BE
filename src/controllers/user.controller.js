@@ -53,8 +53,8 @@ export const createUser = async (req, res) => {
     passExpiration.setDate(passExpiration.getDate() + 60)
     newUser.passExpiration = passExpiration
 
-    const email = body.email
-    const nickname = email.split('@')
+    const name = body.name
+    const nickname = name.split(' ')
     switch (nickname[1]) {
     case 'gmail.com' :
       newUser.nickname = nickname[0]
