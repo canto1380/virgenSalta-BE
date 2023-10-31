@@ -19,6 +19,7 @@ import EventTypeRoutes from './routes/eventType.routes.js'
 import DailyEventRoutes from './routes/dailyEvent.routes.js'
 import ImportantEventTypeRoutes from './routes/importantEventType.routes.js'
 import ImportantEvent from './routes/importantEvent.routes.js'
+import CarouselRoutes from './routes/carousel.routes.js'
 
 import process from 'process'
 
@@ -56,6 +57,7 @@ app.use('/eventType', EventTypeRoutes)
 app.use('/dailyEvent', DailyEventRoutes)
 app.use('/importantEventType', ImportantEventTypeRoutes)
 app.use('/importantEvent', ImportantEvent)
+app.use('/carousel', CarouselRoutes)
 
 
 const specs = swaggerJSDoc(options)
