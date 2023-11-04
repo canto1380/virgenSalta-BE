@@ -4,7 +4,7 @@ const newsSchema = new Schema({
     type: String,
     trim: true,
     required: true,
-    minlength: [10, 'Description must be greater than 10 char'],
+    minlength: [5, 'Description must be greater than 10 char'],
     maxlength: [150, 'Description must be less than 100 char'],
     unique: true
   },
@@ -12,14 +12,14 @@ const newsSchema = new Schema({
     type: String,
     required: true,
     trim: true,
-    minlength: [10, 'Description must be greater than 10 char'],
+    minlength: [5, 'Description must be greater than 10 char'],
     maxlength: [150, 'Description must be less than 100 char'],
   },
   caption: {
     type: String,
     trim: true,
     required: true,
-    minlength: [10, 'Description must be greater than 10 char'],
+    minlength: [5, 'Description must be greater than 10 char'],
     maxlength: [100, 'Description must be less than 100 char'],
   },
   description: {

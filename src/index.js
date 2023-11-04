@@ -20,6 +20,8 @@ import DailyEventRoutes from './routes/dailyEvent.routes.js'
 import ImportantEventTypeRoutes from './routes/importantEventType.routes.js'
 import ImportantEvent from './routes/importantEvent.routes.js'
 import CarouselRoutes from './routes/carousel.routes.js'
+import SpecialDaysRoutes from './routes/specialDays.routes.js'
+import BackdropRoutes from './routes/backdrop.routes.js'
 
 import process from 'process'
 
@@ -58,6 +60,8 @@ app.use('/dailyEvent', DailyEventRoutes)
 app.use('/importantEventType', ImportantEventTypeRoutes)
 app.use('/importantEvent', ImportantEvent)
 app.use('/carousel', CarouselRoutes)
+app.use('/specialDays', SpecialDaysRoutes)
+app.use('/backdrop', BackdropRoutes)
 
 
 const specs = swaggerJSDoc(options)

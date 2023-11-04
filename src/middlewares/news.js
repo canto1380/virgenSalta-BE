@@ -23,7 +23,7 @@ const nameNewsNotRepeat = check('title').custom(async(title) => {
 const lengthCaption = check(
   "caption",
   "El campo 'Pie de Foto' debe tener entre 10 y 100 caracteres"
-).isLength({ min: 10, max: 100 });
+).isLength({ min: 5, max: 100 });
 
 const lengthDescription = check(
   "description",
@@ -33,7 +33,7 @@ const lengthDescription = check(
 const lenghtInput = check(
   ["title", 'subtitle'],
   "Los campos 'Título y Subtítulo' deben tener entre 10 y 150 caracteres"
-).isLength({ min: 10, max: 150 });
+).isLength({ min: 5, max: 150 });
 
 const idNewsExists = check('id').custom(async(id) => {
   const newsFound = await verifyIdExistsNews(id)
