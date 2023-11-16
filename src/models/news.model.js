@@ -10,7 +10,7 @@ const newsSchema = new Schema({
   },
   subtitle: {
     type: String,
-    required: true,
+    // required: true,
     trim: true,
     minlength: [5, 'Description must be greater than 10 char'],
     maxlength: [150, 'Description must be less than 100 char'],

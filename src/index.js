@@ -22,6 +22,9 @@ import ImportantEvent from './routes/importantEvent.routes.js'
 import CarouselRoutes from './routes/carousel.routes.js'
 import SpecialDaysRoutes from './routes/specialDays.routes.js'
 import BackdropRoutes from './routes/backdrop.routes.js'
+import HistoryRoutes from './routes/history.routes.js'
+import ItemNavCategory from './routes/itemNavCategory.routes.js'
+import ItemNavRoutes from './routes/itemNav.routes.js'
 
 import process from 'process'
 
@@ -62,6 +65,9 @@ app.use('/importantEvent', ImportantEvent)
 app.use('/carousel', CarouselRoutes)
 app.use('/specialDays', SpecialDaysRoutes)
 app.use('/backdrop', BackdropRoutes)
+app.use('/history', HistoryRoutes)
+app.use('/itemNavCategory', ItemNavCategory)
+app.use('/itemNav', ItemNavRoutes)
 
 
 const specs = swaggerJSDoc(options)
