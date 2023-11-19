@@ -23,7 +23,7 @@ export const allItemNavCategory = async (req, res) => {
       search = "",
       order = "",
       sortBy = "",
-      deleted,
+      visible,
     } = req.query;
     let orderSearch = order ? order : "asc";
     let sortBySearch = sortBy ? sortBy : "orderNumber";
@@ -32,7 +32,7 @@ export const allItemNavCategory = async (req, res) => {
     let filters = {
       itemNavCategory: regex,
     };
-    if(deleted) filters ={...filters, deleted}
+    if(visible) filters ={...filters, visible}
     const countItemNavCategory = await ItemNavCategory.countDocuments();
     const findTotal = await ItemNavCategory.find(filters)
     const allItemNavCategory = await ItemNavCategory.find(filters)
