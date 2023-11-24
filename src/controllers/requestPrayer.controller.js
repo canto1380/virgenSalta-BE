@@ -29,7 +29,7 @@ const sendEmail = async(email, name, requestPrayer) => {
     })
     
     const mailOptions = {
-      from: 'contactofundacionimcejysacej@gmail.com',
+      from: email,
       to: 'contactofundacionimcejysacej@gmail.com',
       subject: 'Pedido de oración',
       html:`<div>
