@@ -25,6 +25,7 @@ import BackdropRoutes from './routes/backdrop.routes.js'
 import HistoryRoutes from './routes/history.routes.js'
 import ItemNavCategory from './routes/itemNavCategory.routes.js'
 import ItemNavRoutes from './routes/itemNav.routes.js'
+import RequestPrayerRoutes from './routes/requestPrayer.routes.js'
 
 import process from 'process'
 
@@ -68,7 +69,7 @@ app.use('/backdrop', BackdropRoutes)
 app.use('/history', HistoryRoutes)
 app.use('/itemNavCategory', ItemNavCategory)
 app.use('/itemNav', ItemNavRoutes)
-
+app.use('/requestPrayer', RequestPrayerRoutes)
 
 const specs = swaggerJSDoc(options)
 app.use('/docs', swaggerUI.serve, swaggerUI.setup(specs))

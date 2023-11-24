@@ -29,15 +29,17 @@ export const resetPass = async(req, res) => {
 
 const sendEmail = (user) => {
     const transporter = nodemailer.createTransport({
-      service: 'gmail',
+      host: 'smtp.gmail.com',
+      port: 587,
+      secure: false,
       auth: {
-        user: 'atapenalba16@gmail.com',
-        pass: 'uzsyjqtkbgrneykr'
+        user: 'contactofundacionimcejysacej@gmail.com',
+        pass: 'mysb ffnp fwwh nssi'
       }
     })
     const mailOptions = {
-      from: 'atapenalba16@gmail.com',
-      to: 'atapenalba16@gmail.com',
+      from: 'contactofundacionimcejysacej@gmail.com',
+      to: user.email,
       subject: 'Restablecer Contraseña',
       html:`<div>
       <h3 className='py-3'>Hola ${user.name} ${user.surname}!</h3>
@@ -61,15 +63,20 @@ export const updatePassReset = async(req, res) => {
   try {
     const body = req.body
     const { email } = req.params
+    console.log(body)
+    
     const user = await verifyExists(email)
     if(user && user.tokenResetPass === body.token) {
-
+      console.log(email)
       body.password = await bcrypt.hash(body.password, 8)
-      const updated = await User.findOneAndUpdate(email, body, {new: true})
+      const updated = await User.findOneAndUpdate({email: email}, body, {new: true})
+      console.log(updated)
+
       const updatePassExpiration = new Date()
       updatePassExpiration.setDate(updatePassExpiration.getDate() + 60)
       updated.passExpiration = updatePassExpiration
       updated.tokenResetPass = ''
+      updated.lastPassIncorrect = ''
       await updated.save()
       res.status(200).json({message: 'Clave restaurada con exito'})
     } else {
