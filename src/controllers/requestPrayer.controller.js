@@ -30,7 +30,7 @@ const sendEmail = async(email, name, requestPrayer) => {
     
     const mailOptions = {
       from: 'contactofundacionimcejysacej@gmail.com',
-      to: 'atapenalba16@gmail.com',
+      to: email,
       subject: 'Pedido de oración',
       html:`<div>
       <h3 className='py-3'>Nuevo pedido de oración</h3>
