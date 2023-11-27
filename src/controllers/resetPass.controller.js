@@ -43,7 +43,7 @@ const sendEmail = (user) => {
       subject: 'Restablecer Contraseña',
       html:`<div>
       <h3 className='py-3'>Hola ${user.name} ${user.surname}!</h3>
-      <p className='pb-1'>Para restablecer su contraseña haz click en el siguiente link: http://localhost:3000/admin/resetear-clave/${user.email}/${user.tokenResetPass}</p>
+      <p className='pb-1'>Para restablecer su contraseña haz click en el siguiente link: https://virgendesalta.netlify.app/admin/resetear-clave/${user.email}/${user.tokenResetPass}</p>
       <p className='pb-1'>Token: <strong>${user.tokenResetPass}</strong></p>
       <p className='pb-1'>Tenga en cuenta que el token enviado tiene una validez de 10 minutos, una vez vencido, deberá realizar el proceso nuevamente</p>
       <p className='py-3'>Atentamente, la administración</p>
