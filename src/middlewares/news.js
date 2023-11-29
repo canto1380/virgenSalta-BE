@@ -9,7 +9,7 @@ import {
   verifyNameExistsNews
 } from '../controllers/news.controller.js'
 import { verifyIdExistsNewsCategory } from "../controllers/newsCategory.controller.js";
-const fieldRequired = check(['title', 'description', 'caption', 'idNewsCategory'], 'Campo requerido').not().isEmpty()
+const fieldRequired = check(['title', 'description', 'idNewsCategory'], 'Campo requerido').not().isEmpty()
 
 const nameNewsNotRepeat = check('title').custom(async(title) => {
   if(!title) {
@@ -20,10 +20,6 @@ const nameNewsNotRepeat = check('title').custom(async(title) => {
     throw new AppError('El nombre de la noticia ingresada ya existe', 400)
   }
 })
-const lengthCaption = check(
-  "caption",
-  "El campo 'Pie de Foto' debe tener entre 10 y 100 caracteres"
-).isLength({ min: 5, max: 100 });
 
 const lengthDescription = check(
   "description",
@@ -59,7 +55,6 @@ export const postRequestValidations = [
   validJWT,
   fieldRequired,
   nameNewsNotRepeat,
-  lengthCaption,
   lengthDescription,
   lenghtInput,
   verifyIdExistNewsCategory,
@@ -74,7 +69,6 @@ export const patchRequestValidations = [
   validJWT,
   idNewsExists,
   // nameNewsNotRepeat,
-  lengthCaption,
   lengthDescription,
   lenghtInput,
   verifyIdExistNewsCategory,

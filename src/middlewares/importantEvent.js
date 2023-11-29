@@ -41,7 +41,6 @@ export const patchRequestValidations = [
   validJWT,
   eventNameRequired,
   idImportantEventExist,
-  eventNameNotRepeat,
   validResult
 ]
 export const deleteRequestValidations = [
