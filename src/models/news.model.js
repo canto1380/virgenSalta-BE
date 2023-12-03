@@ -34,6 +34,10 @@ const newsSchema = new Schema({
     required: true,
     trim: true
   },
+  visible: {
+    type: Boolean,
+    default: false
+  },
   deleted: {
     type: Boolean,
     default: false

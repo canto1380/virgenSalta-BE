@@ -6,7 +6,8 @@ import {
   newsById,
   updateNews,
   restoreNews,
-  deleteNews
+  deleteNews,
+  updateVisibilityNews
 } from '../controllers/news.controller.js'
 
 import {
@@ -23,6 +24,7 @@ router.post("/", postRequestValidations, createNews);
 router.get("/", allNews);
 router.get("/:id", getByIdRequestValidations, newsById);
 router.patch("/:id", patchRequestValidations, updateNews);
+router.patch("/updateVisibility/:id", updateVisibilityNews)
 router.patch(
   "/deleteNews/:id",
   deleteRequestValidations,

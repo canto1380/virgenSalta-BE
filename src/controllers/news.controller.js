@@ -19,6 +19,7 @@ export const allNews = async (req, res) => {
       search = "",
       order = "",
       sortBy = "",
+      visible,
       idNewsCategory,
       deleted,
     } = req.query;
@@ -28,9 +29,12 @@ export const allNews = async (req, res) => {
     let filters = {
       title: regex,
     };
+
     if(deleted) filters ={...filters, deleted}
+    if(visible) filters ={...filters, visible} 
     if(idNewsCategory && idNewsCategory !== '')
       filters = { ...filters, idNewsCategory}
+
     const countNews = await News.countDocuments();
     const findTotal = await News.find(filters)
     const allNews = await News.find(filters)
@@ -84,6 +88,20 @@ export const updateNews = async (req, res) => {
     return res.status(400).send({ error: error.message, success: false });
   }
 };
+export const updateVisibilityNews = async(req, res) => {
+  try {
+    const {id} = req.params
+    const {visible} = req.body
+    console.log(id)
+    console.log(visible)
+    const newsUpdate = await News.findById(id)
+    newsUpdate.visible = visible
+    newsUpdate.save()
+    res.status(200).json({message: 'Noticia actualizada'})
+  } catch (error) {
+    return res.status(400).send({error: error.message, success: false})
+  }
+}
 
 export const deleteNews = async (req, res) => {
   try {

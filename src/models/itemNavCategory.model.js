@@ -13,6 +13,9 @@ const itemNavCategorySchema = new Schema({
     trim: true,
     required: true,
   },
+  urlRedirect: {
+    type: String,
+  },
   visible: {
     type: Boolean,
     default: true
