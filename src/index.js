@@ -26,6 +26,7 @@ import HistoryRoutes from './routes/history.routes.js'
 import ItemNavCategory from './routes/itemNavCategory.routes.js'
 import ItemNavRoutes from './routes/itemNav.routes.js'
 import RequestPrayerRoutes from './routes/requestPrayer.routes.js'
+import FastAccess from './routes/fastAccess.routes.js'
 
 import process from 'process'
 
@@ -70,6 +71,7 @@ app.use('/history', HistoryRoutes)
 app.use('/itemNavCategory', ItemNavCategory)
 app.use('/itemNav', ItemNavRoutes)
 app.use('/requestPrayer', RequestPrayerRoutes)
+app.use('/fastAccess', FastAccess)
 
 const specs = swaggerJSDoc(options)
 app.use('/docs', swaggerUI.serve, swaggerUI.setup(specs))
