@@ -92,8 +92,6 @@ export const updateVisibilityNews = async(req, res) => {
   try {
     const {id} = req.params
     const {visible} = req.body
-    console.log(id)
-    console.log(visible)
     const newsUpdate = await News.findById(id)
     newsUpdate.visible = visible
     newsUpdate.save()
