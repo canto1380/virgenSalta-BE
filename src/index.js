@@ -29,6 +29,7 @@ import RequestPrayerRoutes from './routes/requestPrayer.routes.js'
 import FastAccess from './routes/fastAccess.routes.js'
 import StatisticsRoutes from './routes/statistics.routes.js'
 import FooterRoutes from './routes/footer.routes.js'
+import ConfigurationsRoutes from './routes/configurations.routes.js'
 
 import process from 'process'
 
@@ -76,6 +77,7 @@ app.use('/requestPrayer', RequestPrayerRoutes)
 app.use('/fastAccess', FastAccess)
 app.use('/statistics', StatisticsRoutes)
 app.use('/footer', FooterRoutes)
+app.use('/configuration', ConfigurationsRoutes)
 
 const specs = swaggerJSDoc(options)
 app.use('/docs', swaggerUI.serve, swaggerUI.setup(specs))
