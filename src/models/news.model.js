@@ -23,7 +23,7 @@ const newsSchema = new Schema({
     type: String,
     required: true,
     trim: true,
-    minlength: [150, 'Description must be greater than 10 char']
+    minlength: [1, 'Description must be greater than 1 char']
   },
   photos: {
     type: [String],
@@ -36,7 +36,7 @@ const newsSchema = new Schema({
   },
   visible: {
     type: Boolean,
-    default: false
+    default: true
   },
   deleted: {
     type: Boolean,

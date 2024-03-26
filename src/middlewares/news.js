@@ -23,8 +23,8 @@ const nameNewsNotRepeat = check('title').custom(async(title) => {
 
 const lengthDescription = check(
   "description",
-  "El campo 'Descripción' debe tener al menos 150 caracteres"
-).isLength({ min: 150});
+  "El campo 'Descripción' no puede estar vacio"
+).isLength({ min: 1});
 
 const lenghtInput = check(
   "title",
