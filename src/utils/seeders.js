@@ -38,7 +38,7 @@ const dataUser = [
 ]
 const dataNewsCategory = [
   {
-    nameCategory: 'Apariciones de la Virgen',
+    nameCategory: 'Apariciones de la Virgenss',
     deleted: false,
     backdrop: 'https://firebasestorage.googleapis.com/v0/b/virgen-salta-4f8e3.appspot.com/o/img-categorias%2Fbackdrop-coordinadores-misiones.JPG?alt=media&token=e03d6f41-306f-482e-962f-3a9630c207c1&_gl=1*1czvteu*_ga*MTAyNjkyMzAyMy4xNjg1NTg5MzY1*_ga_CW55HF8NVT*MTY4NTczNTM1Ny4xMi4xLjE2ODU3MzcwNDQuMC4wLjA.'
   },

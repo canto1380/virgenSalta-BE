@@ -22,7 +22,7 @@ const specialDaysSchema = new Schema({
     type: String,
     required: true,
     trim: true,
-    minlength: [10, 'Description must be greater than 10 char']
+    minlength: [1, 'Description must be greater than 11 char']
   },
   deleted: {
     type: Boolean,

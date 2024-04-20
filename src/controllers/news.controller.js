@@ -22,6 +22,7 @@ export const allNews = async (req, res) => {
       visible,
       idNewsCategory,
       deleted,
+      home,
     } = req.query;
     let orderSearch = order ? order : "desc";
     let sortBySearch = sortBy ? sortBy : "createdAt";
@@ -31,7 +32,8 @@ export const allNews = async (req, res) => {
     };
 
     if(deleted) filters ={...filters, deleted}
-    if(visible) filters ={...filters, visible} 
+    if(visible) filters ={...filters, visible}
+    if(home) filters= {...filters, home}
     if(idNewsCategory && idNewsCategory !== '')
       filters = { ...filters, idNewsCategory}
 

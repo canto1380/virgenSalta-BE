@@ -4,6 +4,8 @@ export const createNewsCategory = async(req, res) => {
   try {
     const body = req.body
     const newNewsCategory = new NewsCategory(body)
+    const maxRegister = await NewsCategory.findOne({}).sort({'order':'desc'})
+    newNewsCategory.order = maxRegister ? maxRegister.order + 1 : 1
     await newNewsCategory.save()
     res.status(200).json(newNewsCategory)
   } catch (error) {
@@ -21,8 +23,8 @@ export const allNewsCategory = async (req, res) => {
       sortBy = "",
       deleted,
     } = req.query;
-    let orderSearch = order ? order : "desc";
-    let sortBySearch = sortBy ? sortBy : "createdAt";
+    let orderSearch = order ? order : "asc";
+    let sortBySearch = sortBy ? sortBy : "order";
     const regex = new RegExp(search, "i");
 
     let filters = {
@@ -104,3 +106,15 @@ export const restoreNewsCategory = async (req, res) => {
     return res.status(400).send({ error: error.message, success: false });
   }
 };
+
+export const updateOrderNumber = async(req, res) => {
+  try {
+    const {id, order} = req.body
+    const itemNewsCategoryUpdate = await NewsCategory.findById(id)
+    itemNewsCategoryUpdate.order = order
+    itemNewsCategoryUpdate.save()
+    res.status(200).json({message: 'Orden actualizado con éxito'})
+  } catch (error) {
+    res.status(400).send({error: error.message, success: false})
+  }
+}

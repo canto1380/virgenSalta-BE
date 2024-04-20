@@ -3,7 +3,6 @@ import SpecialDays from "../models/specialDays.model.js"
 export const createSpecialDays = async(req, res) => {
   try {
     const body = req.body
-    console.log(body)
     const newSpecialDays = new SpecialDays(body)
     await newSpecialDays.save()
     res.status(200).json(newSpecialDays)

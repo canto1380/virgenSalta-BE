@@ -5,7 +5,6 @@ export const createDirectAccessFooter = async(req, res) => {
     const body = req.body
     const newDirectAccessFooter = new DirectAccessFooter(body)
     const maxRegister = await DirectAccessFooter.findOne({}).sort({'order': 'desc'})
-    console.log(maxRegister)
     newDirectAccessFooter.order  = maxRegister ? maxRegister.order + 1 : 1
     await newDirectAccessFooter.save()
     res.status(200).json(newDirectAccessFooter)

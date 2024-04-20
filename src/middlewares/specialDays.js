@@ -27,14 +27,14 @@ const lengthTitle = check(
 ).isLength({ min: 5, max: 60 });
 
 const lengthSubtitle = check(
-  "title",
+  "subtitle",
   "El campo 'Subtitulo' debe tener entre 5 y 150 caracteres"
 ).isLength({ min: 5, max: 150 });
 
 const lengthDescription = check(
-  "title",
-  "El campo 'Descripción' debe tener entre 10 y 6000 caracteres"
-).isLength({ min: 10, max: 6000 });
+  "description",
+  "El campo 'Descripción' no puede estar vacio"
+).isLength({ min: 1 });
 
 const idSpecialDaysExists = check('id').custom(async(id) => {
   const specialDaysFound = await verifyIdExistsSpecialDays(id)

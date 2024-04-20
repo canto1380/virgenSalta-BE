@@ -5,7 +5,6 @@ export const createStatistics = async(req, res) => {
     const body = req.body
     const newStatistics = new Statistics(body)
     const maxRegister = await Statistics.findOne({}).sort({'order': 'desc'})
-    console.log(maxRegister)
     newStatistics.order  = maxRegister ? maxRegister.order + 1 : 1
     await newStatistics.save()
     res.status(200).json(newStatistics)

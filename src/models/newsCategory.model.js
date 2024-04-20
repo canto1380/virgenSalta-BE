@@ -15,7 +15,12 @@ const newsCategorySchema = new Schema({
   backdrop: {
     type: String,
     required: true
-  }
+  },
+  order: {
+    type: Number,
+    trim: true,
+    required: true,
+  },
 }, {timestamps: true})
 
 const NewsCategory = mongoose.model('NewsCategory', newsCategorySchema)

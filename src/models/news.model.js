@@ -38,6 +38,10 @@ const newsSchema = new Schema({
     type: Boolean,
     default: true
   },
+  home: {
+    type: Boolean,
+    default: false
+  },
   deleted: {
     type: Boolean,
     default: false

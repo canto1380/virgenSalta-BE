@@ -5,7 +5,6 @@ export const createConfigurations = async(req, res) => {
     const body = req.body
     const newConfigurations = new Configurations(body)
     const maxRegister = await Configurations.findOne({}).sort({'order': 'desc'})
-    console.log(maxRegister)
     newConfigurations.order  = maxRegister ? maxRegister.order + 1 : 1
     await newConfigurations.save()
     res.status(200).json(newConfigurations)

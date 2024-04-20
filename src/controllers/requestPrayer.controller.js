@@ -20,9 +20,7 @@ const sendEmail = async(email, name, requestPrayer) => {
         pass: 'mysb ffnp fwwh nssi'
       }
     })
-    console.log(requestPrayer)
     const arr = requestPrayer.split('\n')
-    console.log(arr)
     let textHTML = ``
     arr.forEach((d, i) => {
       textHTML = textHTML + `<p className='pb-2'>${d}</p>`

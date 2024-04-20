@@ -63,14 +63,11 @@ export const updatePassReset = async(req, res) => {
   try {
     const body = req.body
     const { email } = req.params
-    console.log(body)
     
     const user = await verifyExists(email)
     if(user && user.tokenResetPass === body.token) {
-      console.log(email)
       body.password = await bcrypt.hash(body.password, 8)
       const updated = await User.findOneAndUpdate({email: email}, body, {new: true})
-      console.log(updated)
 
       const updatePassExpiration = new Date()
       updatePassExpiration.setDate(updatePassExpiration.getDate() + 60)

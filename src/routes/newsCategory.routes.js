@@ -6,7 +6,8 @@ import {
   newsCategoryById,
   updateNewsCategory,
   restoreNewsCategory,
-  deleteNewsCategory
+  deleteNewsCategory,
+  updateOrderNumber
 } from '../controllers/newsCategory.controller.js'
 
 import {
@@ -21,6 +22,7 @@ const router = Router()
 
 router.post("/", postRequestValidations, createNewsCategory);
 router.get("/", allNewsCategory);
+router.patch('/updateOrderNumber', updateOrderNumber)
 router.get("/:id", getByIdRequestValidations, newsCategoryById);
 router.patch("/:id", patchRequestValidations, updateNewsCategory);
 router.patch(

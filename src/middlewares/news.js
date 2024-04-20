@@ -39,7 +39,6 @@ const idNewsExists = check('id').custom(async(id) => {
 })
 const verifyIdExistNewsCategory = check('idNewsCategory').custom(
   async (idNewsCategory) => {
-    console.log(idNewsCategory)
     if(!idNewsCategory) {
       return
     } else {

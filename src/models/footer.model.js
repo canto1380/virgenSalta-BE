@@ -16,6 +16,11 @@ const directAccessFooterSchema = new Schema({
     trim: true,
     required: true,
   },
+  typeField: {
+    type: String,
+    enum: ['SecciónInterna', 'urlExterno'],
+    required: true
+  },
   deleted: {
     type: Boolean,
     default: false
