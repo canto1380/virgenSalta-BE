@@ -31,6 +31,8 @@ import StatisticsRoutes from './routes/statistics.routes.js'
 import FooterRoutes from './routes/footer.routes.js'
 import ConfigurationsRoutes from './routes/configurations.routes.js'
 import MessageVirgen from './routes/messageVirgen.routes.js'
+import MessageJesus from './routes/messageJesus.routes.js'
+import MessageGeneral from './routes/messageGeneral.routes.js'
 
 import process from 'process'
 
@@ -80,6 +82,7 @@ app.use('/statistics', StatisticsRoutes)
 app.use('/footer', FooterRoutes)
 app.use('/configuration', ConfigurationsRoutes)
 app.use('/messageVirgen', MessageVirgen)
-
+app.use('/messageJesus',MessageJesus)
+app.use('/messageGeneral',MessageGeneral)
 const specs = swaggerJSDoc(options)
 app.use('/docs', swaggerUI.serve, swaggerUI.setup(specs))
