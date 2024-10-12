@@ -182,8 +182,8 @@ const seedersUp = async () => {
     // const db = process.env.MONGO_DB
     // mongoose.connection.db.dropDatabase()
 
-    await EventType.insertMany(dataEventType)
-    await DailyEvent.insertMany(await dataDailyEvent())
+    // await EventType.insertMany(dataEventType)
+    // await DailyEvent.insertMany(await dataDailyEvent())
     await User.insertMany(dataUser)
 
     await News.insertMany(await dataNews())
