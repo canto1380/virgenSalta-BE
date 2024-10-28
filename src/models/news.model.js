@@ -45,7 +45,12 @@ const newsSchema = new Schema({
   deleted: {
     type: Boolean,
     default: false
-  }
+  },
+  order: {
+    type: Number,
+    trim: true,
+    // required: true,
+  },
 }, {timestamps: true})
 
 const News = mongoose.model('News', newsSchema)

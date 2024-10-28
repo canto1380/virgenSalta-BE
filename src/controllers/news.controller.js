@@ -4,6 +4,8 @@ export const createNews = async(req, res) => {
   try {
     const body = req.body
     const newNews = new News(body)
+    const maxRegister = await News.findOne({}).sort({'order':'desc'})
+    newNews.order = maxRegister ? maxRegister.order + 1 : 1
     await newNews.save()
     res.status(200).json(newNews)
   } catch (error) {
@@ -24,8 +26,8 @@ export const allNews = async (req, res) => {
       deleted,
       home,
     } = req.query;
-    let orderSearch = order ? order : "desc";
-    let sortBySearch = sortBy ? sortBy : "createdAt";
+    let orderSearch = order ? order : "asc";
+    let sortBySearch = sortBy ? sortBy : "order";
     const regex = new RegExp(search, "i");
     let filters = {
       title: regex,
@@ -126,3 +128,16 @@ export const restoreNews = async (req, res) => {
     return res.status(400).send({ error: error.message, success: false });
   }
 };
+
+export const updateOrderNumberNews = async(req, res) => {
+  console.log('asdadsad')
+  try {
+    const {id, order} = req.body
+    const itemNewsUpdate = await News.findById(id)
+    itemNewsUpdate.order = order
+    itemNewsUpdate.save()
+    res.status(200).json({message: 'Orden actualizado con éxito'})
+  } catch (error) {
+    res.status(400).send({error: error.message, success: false})
+  }
+}
