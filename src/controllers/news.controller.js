@@ -130,7 +130,6 @@ export const restoreNews = async (req, res) => {
 };
 
 export const updateOrderNumberNews = async(req, res) => {
-  console.log('asdadsad')
   try {
     const {id, order} = req.body
     const itemNewsUpdate = await News.findById(id)

@@ -30,7 +30,6 @@ export const allMessageGeneral = async (req, res) => {
     };
 
     if(deleted) filters ={...filters, deleted}
-    console.log(year)
     if(year && year !== 'Todos')
       filters = { ...filters, year}
     const countMessage = await MessageGeneral.countDocuments();
