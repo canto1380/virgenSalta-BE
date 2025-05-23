@@ -7,7 +7,9 @@ dotenv.config({ path: '.env' })
 
 const { MONGO_HOST, MONGO_PORT, MONGO_DB, URL_SERVER_LOCAL, URL_SERVER_PRODUCTION } = process.env
 
-const connUrl = URL_SERVER_LOCAL ? URL_SERVER_LOCAL : URL_SERVER_PRODUCTION
+const connUrl = process.env.NODE_ENV === 'production'
+  ? URL_SERVER_PRODUCTION
+  : URL_SERVER_LOCAL;
 
 mongoose.connect(connUrl)
   .then(success => {
