@@ -5,9 +5,17 @@ import seedersUp from './utils/seeders.js'
 
 dotenv.config({ path: '.env' })
 
-const { MONGO_HOST, MONGO_PORT, MONGO_DB, URL_SERVER_LOCAL, URL_SERVER_PRODUCTION } = process.env
+const { MONGO_HOST, MONGO_PORT, MONGO_DB } = process.env
 
-const connUrl = URL_SERVER_LOCAL ? URL_SERVER_LOCAL : URL_SERVER_PRODUCTION
+const connUrl = process.env.NODE_ENV === 'production'
+  ? process.env.URL_SERVER_PRODUCTION
+  : process.env.URL_SERVER_LOCAL;
+
+// Solo para debug en producción, remover más tarde
+console.log('connUrl', connUrl)
+
+// Evita warning de futuras versiones de Mongoose
+mongoose.set('strictQuery', false);
 
 mongoose.connect(connUrl)
   .then(success => {
