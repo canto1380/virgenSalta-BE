@@ -58,9 +58,9 @@ app.use(cookieParser())
 app.use(bodyParser.json({ limit: '10mb', extended: true }))
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }))
 
-const cacheControl = (seconds) => (req, res, next) => {
+const cacheControl = (req, res, next) => {
   if (req.method === 'GET') {
-    res.set('Cache-Control', `public, max-age=${seconds}, stale-while-revalidate=${seconds * 2}`)
+    res.set('Cache-Control', 'private, no-store')
   }
   next()
 }
@@ -74,28 +74,28 @@ app.listen(app.get('port'), () => {
 app.use('/signin', signinRoutes)
 app.use('/users', userRoutes)
 
-// Rarely changing data — 1 hour HTTP cache + in-memory cache
-app.use('/configuration', cacheControl(3600), cacheMiddleware('configuration', 3600), ConfigurationsRoutes)
-app.use('/itemNavCategory', cacheControl(3600), cacheMiddleware('itemNavCategory', 3600), ItemNavCategory)
-app.use('/itemNav', cacheControl(3600), cacheMiddleware('itemNav', 3600), ItemNavRoutes)
-app.use('/footer', cacheControl(3600), cacheMiddleware('footer', 3600), FooterRoutes)
+// Server-side in-memory cache (1 hour) — browser is told not to cache API responses
+app.use('/configuration', cacheControl, cacheMiddleware('configuration', 3600), ConfigurationsRoutes)
+app.use('/itemNavCategory', cacheControl, cacheMiddleware('itemNavCategory', 3600), ItemNavCategory)
+app.use('/itemNav', cacheControl, cacheMiddleware('itemNav', 3600), ItemNavRoutes)
+app.use('/footer', cacheControl, cacheMiddleware('footer', 3600), FooterRoutes)
 
-// Content that changes more often — cache for 5 minutes
-app.use('/newsCategory', cacheControl(300), NewsCategoryRoutes)
-app.use('/news', cacheControl(300), NewsRoutes)
-app.use('/eventType', cacheControl(300), EventTypeRoutes)
-app.use('/dailyEvent', cacheControl(300), DailyEventRoutes)
-app.use('/importantEventType', cacheControl(300), ImportantEventTypeRoutes)
-app.use('/importantEvent', cacheControl(300), ImportantEvent)
-app.use('/carousel', cacheControl(300), CarouselRoutes)
-app.use('/specialDays', cacheControl(300), SpecialDaysRoutes)
-app.use('/backdrop', cacheControl(300), BackdropRoutes)
-app.use('/history', cacheControl(300), HistoryRoutes)
-app.use('/fastAccess', cacheControl(300), FastAccess)
-app.use('/statistics', cacheControl(300), StatisticsRoutes)
-app.use('/messageVirgen', cacheControl(300), MessageVirgen)
-app.use('/messageJesus', cacheControl(300), MessageJesus)
-app.use('/messageGeneral', cacheControl(300), MessageGeneral)
+// Server-side in-memory cache (5 minutes)
+app.use('/newsCategory', cacheControl, NewsCategoryRoutes)
+app.use('/news', cacheControl, NewsRoutes)
+app.use('/eventType', cacheControl, EventTypeRoutes)
+app.use('/dailyEvent', cacheControl, DailyEventRoutes)
+app.use('/importantEventType', cacheControl, ImportantEventTypeRoutes)
+app.use('/importantEvent', cacheControl, ImportantEvent)
+app.use('/carousel', cacheControl, CarouselRoutes)
+app.use('/specialDays', cacheControl, SpecialDaysRoutes)
+app.use('/backdrop', cacheControl, BackdropRoutes)
+app.use('/history', cacheControl, HistoryRoutes)
+app.use('/fastAccess', cacheControl, FastAccess)
+app.use('/statistics', cacheControl, StatisticsRoutes)
+app.use('/messageVirgen', cacheControl, MessageVirgen)
+app.use('/messageJesus', cacheControl, MessageJesus)
+app.use('/messageGeneral', cacheControl, MessageGeneral)
 
 app.use('/requestPrayer', RequestPrayerRoutes)
 app.use('/', YouTubeRoutes)
