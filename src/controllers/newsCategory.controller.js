@@ -31,19 +31,21 @@ export const allNewsCategory = async (req, res) => {
       nameCategory: regex,
     };
     if(deleted) filters ={...filters, deleted}
-    const countNewsCategory = await NewsCategory.countDocuments();
-    const findTotal = await NewsCategory.find(filters)
-    const allNewsCategory = await NewsCategory.find(filters)
-      .limit(limit * 1)
-      .skip((page - 1) * limit)
-      .sort([[sortBySearch, orderSearch]])
+    const [allNewsCategory, totalCount] = await Promise.all([
+      NewsCategory.find(filters)
+        .limit(limit * 1)
+        .skip((page - 1) * limit)
+        .sort([[sortBySearch, orderSearch]])
+        .lean(),
+      NewsCategory.countDocuments(filters),
+    ])
     const foundRegisters = allNewsCategory.length
 
     res.status(200).json({
       allNewsCategory,
-      totalRegister: findTotal.length,
+      totalRegister: totalCount,
       foundRegisters,
-      totalPages: Math.ceil( countNewsCategory/limit ),
+      totalPages: Math.ceil(totalCount / limit),
       currentPage: page
     });
   } catch (error) {

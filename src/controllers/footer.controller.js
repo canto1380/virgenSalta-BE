@@ -1,4 +1,5 @@
 import DirectAccessFooter from "../models/footer.model.js"
+import { clearCache } from "../middlewares/cache.js"
 
 export const createDirectAccessFooter = async(req, res) => {
   try {
@@ -7,6 +8,7 @@ export const createDirectAccessFooter = async(req, res) => {
     const maxRegister = await DirectAccessFooter.findOne({}).sort({'order': 'desc'})
     newDirectAccessFooter.order  = maxRegister ? maxRegister.order + 1 : 1
     await newDirectAccessFooter.save()
+    clearCache('footer')
     res.status(200).json(newDirectAccessFooter)
   } catch (error) {
     return res.status(400).send({error: error.message, success: false})
@@ -31,19 +33,21 @@ export const allDirectAccessFooter = async (req, res) => {
     };
     if(deleted) filters ={...filters, deleted}
 
-    const countDirectAccessFooter = await DirectAccessFooter.countDocuments();
-    const findTotal = await DirectAccessFooter.find(filters)
-    const allDirectAccessFooter = await DirectAccessFooter.find(filters)
-      .limit(limit * 1)
-      .skip((page - 1) * limit)
-      .sort([[sortBySearch, orderSearch]])
+    const [allDirectAccessFooter, totalCount] = await Promise.all([
+      DirectAccessFooter.find(filters)
+        .limit(limit * 1)
+        .skip((page - 1) * limit)
+        .sort([[sortBySearch, orderSearch]])
+        .lean(),
+      DirectAccessFooter.countDocuments(filters),
+    ])
     const foundRegisters = allDirectAccessFooter.length
 
     res.status(200).json({
       allDirectAccessFooter,
-      totalRegister: findTotal.length,
+      totalRegister: totalCount,
       foundRegisters,
-      totalPages: Math.ceil( countDirectAccessFooter/limit ),
+      totalPages: Math.ceil(totalCount / limit),
       currentPage: page
     });
   } catch (error) {
@@ -77,6 +81,7 @@ export const updateDirectAccessFooter = async (req, res) => {
     const body = req.body
     const{id} = req.params
     const directAccessFooterUpdated = await DirectAccessFooter.findByIdAndUpdate(id, body, {new: true})
+    clearCache('footer')
     res.status(200).json({message: 'Acceso directo actualizado con éxito', directAccessFooterUpdated})
   } catch (error) {
     return res.status(400).send({ error: error.message, success: false });

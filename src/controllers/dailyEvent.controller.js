@@ -36,19 +36,22 @@ export const allDailyEvent = async (req, res) => {
     if(day && day !== '')
       filters = { ...filters, day}
 
-    const counterDailyEvent = await DailyEvent.countDocuments();
-    const allDailyEvent = await DailyEvent.find(filters)
-      .limit(limit * 1)
-      .skip((page - 1) * limit)
-      .sort([[sortBySearch, orderSearch]])
-      .populate({path: 'idEventType'})
+    const [allDailyEvent, totalCount] = await Promise.all([
+      DailyEvent.find(filters)
+        .limit(limit * 1)
+        .skip((page - 1) * limit)
+        .sort([[sortBySearch, orderSearch]])
+        .populate({ path: 'idEventType', select: 'eventName' })
+        .lean(),
+      DailyEvent.countDocuments(filters),
+    ])
     const foundRegisters = allDailyEvent.length
 
     res.status(200).json({
       allDailyEvent,
-      totalRegister: counterDailyEvent,
+      totalRegister: totalCount,
       foundRegisters,
-      totalPages: Math.ceil( counterDailyEvent/limit ),
+      totalPages: Math.ceil(totalCount / limit),
       currentPage: page
     });
   } catch (error) {

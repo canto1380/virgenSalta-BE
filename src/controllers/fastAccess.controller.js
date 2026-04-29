@@ -29,19 +29,21 @@ export const allFastAccess = async (req, res) => {
     };
     if(deleted) filters ={...filters, deleted}
 
-    const countFastAccess = await FastAccess.countDocuments();
-    const findTotal = await FastAccess.find(filters)
-    const allFastAccess = await FastAccess.find(filters)
-      .limit(limit * 1)
-      .skip((page - 1) * limit)
-      .sort([[sortBySearch, orderSearch]])
+    const [allFastAccess, totalCount] = await Promise.all([
+      FastAccess.find(filters)
+        .limit(limit * 1)
+        .skip((page - 1) * limit)
+        .sort([[sortBySearch, orderSearch]])
+        .lean(),
+      FastAccess.countDocuments(filters),
+    ])
     const foundRegisters = allFastAccess.length
 
     res.status(200).json({
       allFastAccess,
-      totalRegister: findTotal.length,
+      totalRegister: totalCount,
       foundRegisters,
-      totalPages: Math.ceil( countFastAccess/limit ),
+      totalPages: Math.ceil(totalCount / limit),
       currentPage: page
     });
   } catch (error) {

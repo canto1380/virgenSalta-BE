@@ -29,19 +29,21 @@ export const allSpecialDays = async (req, res) => {
       title: regex,
     };
     if(deleted) filters ={...filters, deleted}
-    const countSpecialDays = await SpecialDays.countDocuments();
-    const findTotal = await SpecialDays.find(filters)
-    const allSpecialDays = await SpecialDays.find(filters)
-      .limit(limit * 1)
-      .skip((page - 1) * limit)
-      .sort([[sortBySearch, orderSearch]])
+    const [allSpecialDays, totalCount] = await Promise.all([
+      SpecialDays.find(filters)
+        .limit(limit * 1)
+        .skip((page - 1) * limit)
+        .sort([[sortBySearch, orderSearch]])
+        .lean(),
+      SpecialDays.countDocuments(filters),
+    ])
     const foundRegisters = allSpecialDays.length
 
     res.status(200).json({
       allSpecialDays,
-      totalRegister: findTotal.length,
+      totalRegister: totalCount,
       foundRegisters,
-      totalPages: Math.ceil( countSpecialDays/limit ),
+      totalPages: Math.ceil(totalCount / limit),
       currentPage: page
     });
   } catch (error) {

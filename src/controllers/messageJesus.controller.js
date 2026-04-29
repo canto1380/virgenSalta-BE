@@ -32,19 +32,21 @@ export const allMessageJesus = async (req, res) => {
     if(deleted) filters ={...filters, deleted}
     if(year && year !== 'Todos')
       filters = { ...filters, year}
-    const countMessage = await MessageJesus.countDocuments();
-    const findTotal = await MessageJesus.find(filters)
-    const allMessage = await MessageJesus.find(filters)
-      .limit(limit * 1)
-      .skip((page - 1) * limit)
-      .sort([[sortBySearch, orderSearch]])
+    const [allMessage, totalCount] = await Promise.all([
+      MessageJesus.find(filters)
+        .limit(limit * 1)
+        .skip((page - 1) * limit)
+        .sort([[sortBySearch, orderSearch]])
+        .lean(),
+      MessageJesus.countDocuments(filters),
+    ])
     const foundRegisters = allMessage.length
 
     res.status(200).json({
       allMessage,
-      totalRegister: findTotal.length,
+      totalRegister: totalCount,
       foundRegisters,
-      totalPages: Math.ceil( countMessage/limit ),
+      totalPages: Math.ceil(totalCount / limit),
       currentPage: page
     });
   } catch (error) {

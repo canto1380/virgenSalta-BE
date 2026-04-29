@@ -29,19 +29,21 @@ export const allCarousel = async (req, res) => {
       nameItem: regex,
     };
     if(deleted) filters ={...filters, deleted}
-    const countCarousel = await Carousel.countDocuments();
-    const findTotal = await Carousel.find(filters)
-    const allCarousel = await Carousel.find(filters)
-      .limit(limit * 1)
-      .skip((page - 1) * limit)
-      .sort([[sortBySearch, orderSearch]])
+    const [allCarousel, totalCount] = await Promise.all([
+      Carousel.find(filters)
+        .limit(limit * 1)
+        .skip((page - 1) * limit)
+        .sort([[sortBySearch, orderSearch]])
+        .lean(),
+      Carousel.countDocuments(filters),
+    ])
     const foundRegisters = allCarousel.length
 
     res.status(200).json({
       allCarousel,
-      totalRegister: findTotal.length,
+      totalRegister: totalCount,
       foundRegisters,
-      totalPages: Math.ceil( countCarousel/limit ),
+      totalPages: Math.ceil(totalCount / limit),
       currentPage: page
     });
   } catch (error) {

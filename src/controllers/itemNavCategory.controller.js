@@ -1,5 +1,6 @@
 import ItemNav from "../models/itemNav.model.js"
 import ItemNavCategory from "../models/itemNavCategory.model.js"
+import { clearCache } from "../middlewares/cache.js"
 
 export const createItemNavCategory = async(req, res) => {
   try {
@@ -9,6 +10,8 @@ export const createItemNavCategory = async(req, res) => {
     const newItemNavCategory = new ItemNavCategory(body)
     newItemNavCategory.orderNumber = orderNumberNext
     await newItemNavCategory.save()
+    clearCache('itemNavCategory')
+    clearCache('itemNav')
     res.status(200).json(newItemNavCategory)
   } catch (error) {
     return res.status(400).send({error: error.message, success: false})
@@ -33,19 +36,21 @@ export const allItemNavCategory = async (req, res) => {
       itemNavCategory: regex,
     };
     if(visible) filters ={...filters, visible}
-    const countItemNavCategory = await ItemNavCategory.countDocuments();
-    const findTotal = await ItemNavCategory.find(filters)
-    const allItemNavCategory = await ItemNavCategory.find(filters)
-      .limit(limit * 1)
-      .skip((page - 1) * limit)
-      .sort([[sortBySearch, orderSearch]])
+    const [allItemNavCategory, totalCount] = await Promise.all([
+      ItemNavCategory.find(filters)
+        .limit(limit * 1)
+        .skip((page - 1) * limit)
+        .sort([[sortBySearch, orderSearch]])
+        .lean(),
+      ItemNavCategory.countDocuments(filters),
+    ])
     const foundRegisters = allItemNavCategory.length
 
     res.status(200).json({
       allItemNavCategory,
-      totalRegister: findTotal.length,
+      totalRegister: totalCount,
       foundRegisters,
-      totalPages: Math.ceil( countItemNavCategory/limit ),
+      totalPages: Math.ceil(totalCount / limit),
       currentPage: page
     });
   } catch (error) {
@@ -79,6 +84,8 @@ export const updateItemNavCategory = async (req, res) => {
     const body = req.body
     const{id} = req.params
     const itemNavCategoryUpdated = await ItemNavCategory.findByIdAndUpdate(id, body, {new: true})
+    clearCache('itemNavCategory')
+    clearCache('itemNav')
     res.status(200).json({message: 'Sección actualizada con éxito', itemNavCategoryUpdated})
   } catch (error) {
     return res.status(400).send({ error: error.message, success: false });

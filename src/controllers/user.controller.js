@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt'
 
 export const allUser = async (req, res) => {
   try {
-    const allUser = await User.find()
+    const allUser = await User.find().select('-password').lean()
     res.status(200).json(allUser)
   } catch (error) {
     return res.status(400).send({ error: error.message, success: false })
@@ -19,25 +19,23 @@ export const userList = async (req, res) => {
       deleted,
       email: regex
     }
-    const countUser = await User.countDocuments()
-    User.find(filters)
-      .limit(limit * 1)
-      .skip((page - 1) * limit)
-      .sort([[sortybySearch, orderSearch]])
-      .exec((err, users) => {
-        const foundRegisters = users.length
-        if (err) {
-          return res.status(400).send({ message: err })
-        } else {
-          res.status(200).json({
-            users,
-            totalRegisters: countUser,
-            foundRegisters,
-            totalPages: Math.ceil(foundRegisters / limit),
-            currentPage: page
-          })
-        }
-      })
+    const [users, totalCount] = await Promise.all([
+      User.find(filters)
+        .limit(limit * 1)
+        .skip((page - 1) * limit)
+        .sort([[sortybySearch, orderSearch]])
+        .select('-password')
+        .lean(),
+      User.countDocuments(filters),
+    ])
+    const foundRegisters = users.length
+    res.status(200).json({
+      users,
+      totalRegisters: totalCount,
+      foundRegisters,
+      totalPages: Math.ceil(totalCount / limit),
+      currentPage: page
+    })
   } catch (error) {
     return res.status(404).send({ error: error.message, success: false })
   }
@@ -76,7 +74,7 @@ export const createUser = async (req, res) => {
 export const userById = async (req, res) => {
   try {
     const { id } = req.params
-    const user = await User.findById(id)
+    const user = await User.findById(id).select('-password').lean()
     res.status(200).json(user)
   } catch (error) {
     res.status(404).send({ error: error.message, success: false })
@@ -86,7 +84,7 @@ export const userById = async (req, res) => {
 export const userByNickname = async (req, res) => {
   try {
     const { nickname } = req.params
-    const user = await User.findOne({ nickname })
+    const user = await User.findOne({ nickname }).select('-password').lean()
     res.status(200).json(user)
   } catch (error) {
     res.status(404).send({ error: error.message, success: false })
@@ -95,7 +93,7 @@ export const userByNickname = async (req, res) => {
 export const userByEmail = async (req, res) => {
   try {
     const { email } = req.params
-    const user = await User.findOne({ email })
+    const user = await User.findOne({ email }).select('-password').lean()
     res.status(200).json(user)
   } catch (error) {
     res.status(404).send({ error: error.message, success: false })

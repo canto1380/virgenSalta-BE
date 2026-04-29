@@ -1,4 +1,5 @@
 import Configurations from "../models/configurations.model.js"
+import { clearCache } from "../middlewares/cache.js"
 
 export const createConfigurations = async(req, res) => {
   try {
@@ -7,6 +8,7 @@ export const createConfigurations = async(req, res) => {
     const maxRegister = await Configurations.findOne({}).sort({'order': 'desc'})
     newConfigurations.order  = maxRegister ? maxRegister.order + 1 : 1
     await newConfigurations.save()
+    clearCache('configuration')
     res.status(200).json(newConfigurations)
   } catch (error) {
     return res.status(400).send({error: error.message, success: false})
@@ -17,7 +19,7 @@ export const allConfigurations = async (req, res) => {
   try {
     const {
       page = 1,
-      limit = 10000,
+      limit = 50,
       search = "",
       order = "",
       sortBy = "",
@@ -31,19 +33,21 @@ export const allConfigurations = async (req, res) => {
     };
     if(deleted) filters ={...filters, deleted}
 
-    const countConfigurations = await Configurations.countDocuments();
-    const findTotal = await Configurations.find(filters)
-    const allConfigurations = await Configurations.find(filters)
-      .limit(limit * 1)
-      .skip((page - 1) * limit)
-      .sort([[sortBySearch, orderSearch]])
+    const [allConfigurations, totalCount] = await Promise.all([
+      Configurations.find(filters)
+        .limit(limit * 1)
+        .skip((page - 1) * limit)
+        .sort([[sortBySearch, orderSearch]])
+        .lean(),
+      Configurations.countDocuments(filters),
+    ])
     const foundRegisters = allConfigurations.length
 
     res.status(200).json({
       allConfigurations,
-      totalRegister: findTotal.length,
+      totalRegister: totalCount,
       foundRegisters,
-      totalPages: Math.ceil( countConfigurations/limit ),
+      totalPages: Math.ceil(totalCount / limit),
       currentPage: page
     });
   } catch (error) {
@@ -77,6 +81,7 @@ export const updateConfigurations = async (req, res) => {
     const body = req.body
     const{id} = req.params
     const configurationsUpdated = await Configurations.findByIdAndUpdate(id, body, {new: true})
+    clearCache('configuration')
     res.status(200).json({message: 'Configuración actualizada con éxito', configurationsUpdated})
   } catch (error) {
     return res.status(400).send({ error: error.message, success: false });

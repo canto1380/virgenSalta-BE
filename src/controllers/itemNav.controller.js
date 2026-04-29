@@ -1,10 +1,12 @@
 import ItemNav from "../models/itemNav.model.js"
+import { clearCache } from "../middlewares/cache.js"
 
 export const createItemNav = async(req, res) => {
   try {
     const body = req.body
     const newItemNav = new ItemNav(body)
     await newItemNav.save()
+    clearCache('itemNav')
     res.status(200).json(newItemNav)
   } catch (error) {
     return res.status(400).send({error: error.message, success: false})
@@ -31,20 +33,22 @@ export const allItemNav = async (req, res) => {
     if(visible) filters ={...filters, visible}
     if(idItemNavCategory && idItemNavCategory !== '')
       filters = { ...filters, idItemNavCategory}
-    const countItemNav = await ItemNav.countDocuments();
-    const findTotal = await ItemNav.find(filters)
-    const allItemNav = await ItemNav.find(filters)
-      .limit(limit * 1)
-      .skip((page - 1) * limit)
-      .sort([[sortBySearch, orderSearch]])
-      .populate({path: 'idItemNavCategory'})
+    const [allItemNav, totalCount] = await Promise.all([
+      ItemNav.find(filters)
+        .limit(limit * 1)
+        .skip((page - 1) * limit)
+        .sort([[sortBySearch, orderSearch]])
+        .populate({ path: 'idItemNavCategory', select: 'itemNavCategory orderNumber' })
+        .lean(),
+      ItemNav.countDocuments(filters),
+    ])
     const foundRegisters = allItemNav.length
 
     res.status(200).json({
       allItemNav,
-      totalRegister: findTotal.length,
+      totalRegister: totalCount,
       foundRegisters,
-      totalPages: Math.ceil( countItemNav/limit ),
+      totalPages: Math.ceil(totalCount / limit),
       currentPage: page
     });
   } catch (error) {
@@ -79,6 +83,7 @@ export const updateItemNav = async (req, res) => {
     const body = req.body
     const{id} = req.params
     const itemNavUpdated = await ItemNav.findByIdAndUpdate(id, body, {new: true})
+    clearCache('itemNav')
     res.status(200).json({message: 'Seeción actualizada con éxito', itemNavUpdated})
   } catch (error) {
     return res.status(400).send({ error: error.message, success: false });

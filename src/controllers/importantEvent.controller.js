@@ -30,19 +30,21 @@ export const allImportantEvent = async(req, res)=> {
     if(idImportantEventType && idImportantEventType !== '')
       filters = { ...filters, idImportantEventType}
     
-    const countEvent = await ImportantEvent.countDocuments()
-    const findTotal = await ImportantEvent.find(filters)
-    const allEvent = await ImportantEvent.find(filters)
-      .sort([[sortBySearch,orderSearch]])
-      .skip((page - 1) * limit)
-      .limit( limit * 1)
-      .populate({path: 'idImportantEventType'})
+    const [allEvent, totalCount] = await Promise.all([
+      ImportantEvent.find(filters)
+        .sort([[sortBySearch, orderSearch]])
+        .skip((page - 1) * limit)
+        .limit(limit * 1)
+        .populate({ path: 'idImportantEventType', select: 'name' })
+        .lean(),
+      ImportantEvent.countDocuments(filters),
+    ])
     const foundRegisters = allEvent.length
     res.status(200).json({
       allEvent,
-      totalRegister: findTotal.length,
+      totalRegister: totalCount,
       foundRegisters,
-      totalPages: Math.ceil( countEvent/limit ),
+      totalPages: Math.ceil(totalCount / limit),
       currentPage: page
     })
   } catch (error) {

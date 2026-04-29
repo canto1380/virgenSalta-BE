@@ -31,19 +31,21 @@ export const allStatistics = async (req, res) => {
     };
     if(deleted) filters ={...filters, deleted}
 
-    const countStatistics = await Statistics.countDocuments();
-    const findTotal = await Statistics.find(filters)
-    const allStatistics = await Statistics.find(filters)
-      .limit(limit * 1)
-      .skip((page - 1) * limit)
-      .sort([[sortBySearch, orderSearch]])
+    const [allStatistics, totalCount] = await Promise.all([
+      Statistics.find(filters)
+        .limit(limit * 1)
+        .skip((page - 1) * limit)
+        .sort([[sortBySearch, orderSearch]])
+        .lean(),
+      Statistics.countDocuments(filters),
+    ])
     const foundRegisters = allStatistics.length
 
     res.status(200).json({
       allStatistics,
-      totalRegister: findTotal.length,
+      totalRegister: totalCount,
       foundRegisters,
-      totalPages: Math.ceil( countStatistics/limit ),
+      totalPages: Math.ceil(totalCount / limit),
       currentPage: page
     });
   } catch (error) {

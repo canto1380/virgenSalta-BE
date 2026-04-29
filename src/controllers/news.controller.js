@@ -39,20 +39,22 @@ export const allNews = async (req, res) => {
     if(idNewsCategory && idNewsCategory !== '')
       filters = { ...filters, idNewsCategory}
 
-    const countNews = await News.countDocuments();
-    const findTotal = await News.find(filters)
-    const allNews = await News.find(filters)
-      .limit(limit * 1)
-      .skip((page - 1) * limit)
-      .sort([[sortBySearch, orderSearch]])
-      .populate({path: 'idNewsCategory'})
+    const [allNews, totalCount] = await Promise.all([
+      News.find(filters)
+        .limit(limit * 1)
+        .skip((page - 1) * limit)
+        .sort([[sortBySearch, orderSearch]])
+        .populate({ path: 'idNewsCategory', select: 'nameCategory' })
+        .lean(),
+      News.countDocuments(filters),
+    ])
     const foundRegisters = allNews.length
 
     res.status(200).json({
       allNews,
-      totalRegister: findTotal.length,
+      totalRegister: totalCount,
       foundRegisters,
-      totalPages: Math.ceil( countNews/limit ),
+      totalPages: Math.ceil(totalCount / limit),
       currentPage: page
     });
   } catch (error) {

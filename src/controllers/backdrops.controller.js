@@ -30,19 +30,21 @@ export const allBackdrops = async (req, res) => {
       nameBackdrop: regex,
     };
     if(deleted) filters ={...filters, deleted}
-    const countBackdrops = await Backdrops.countDocuments();
-    const findTotal = await Backdrops.find(filters)
-    const allBackdrops = await Backdrops.find(filters)
-      .limit(limit * 1)
-      .skip((page - 1) * limit)
-      .sort([[sortBySearch, orderSearch]])
+    const [allBackdrops, totalCount] = await Promise.all([
+      Backdrops.find(filters)
+        .limit(limit * 1)
+        .skip((page - 1) * limit)
+        .sort([[sortBySearch, orderSearch]])
+        .lean(),
+      Backdrops.countDocuments(filters),
+    ])
     const foundRegisters = allBackdrops.length
 
     res.status(200).json({
       allBackdrops,
-      totalRegister: findTotal.length,
+      totalRegister: totalCount,
       foundRegisters,
-      totalPages: Math.ceil( countBackdrops/limit ),
+      totalPages: Math.ceil(totalCount / limit),
       currentPage: page
     });
   } catch (error) {

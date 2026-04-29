@@ -28,18 +28,21 @@ export const allEventType = async (req, res) => {
       eventName: regex,
     };
     if(deleted) filters ={...filters, deleted}
-    const countEventType = await EventType.countDocuments();
-    const allEvent = await EventType.find(filters)
-      .limit(limit * 1)
-      .skip((page - 1) * limit)
-      .sort([[sortBySearch, orderSearch]])
+    const [allEvent, totalCount] = await Promise.all([
+      EventType.find(filters)
+        .limit(limit * 1)
+        .skip((page - 1) * limit)
+        .sort([[sortBySearch, orderSearch]])
+        .lean(),
+      EventType.countDocuments(filters),
+    ])
     const foundRegisters = allEvent.length
 
     res.status(200).json({
       allEvent,
-      totalRegister: countEventType,
+      totalRegister: totalCount,
       foundRegisters,
-      totalPages: Math.ceil( countEventType/limit ),
+      totalPages: Math.ceil(totalCount / limit),
       currentPage: page
     });
   } catch (error) {
